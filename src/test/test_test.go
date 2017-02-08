@@ -1,9 +1,7 @@
 package test
 
 import (
-	"fmt"
 	"sync"
-	"encoding/json"
 	"testing"
 )
 
