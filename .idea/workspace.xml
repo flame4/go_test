@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3128976d-efe0-4824-8484-cb3540c401ca" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/shell/main.sh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/main.go" afterPath="$PROJECT_DIR$/src/main/main.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/test_test.go" afterPath="$PROJECT_DIR$/src/test/test_test.go" />
     </list>
     <ignored path="go_test.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -212,6 +208,7 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/main.go" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="GO_FMT" value="false" />
   </component>
   <component name="RunManager" selected="Go Single File.main">
     <configuration default="true" type="BashConfigurationType" factoryName="Bash">
@@ -411,6 +408,14 @@
       <option name="presentableId" value="Default" />
       <updated>1486202731503</updated>
     </task>
+    <task id="LOCAL-00001" summary="biubiubiu">
+      <created>1486564858680</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1486564858680</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -464,6 +469,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="biubiubiu" />
+    <option name="LAST_COMMIT_MESSAGE" value="biubiubiu" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
