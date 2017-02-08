@@ -5,11 +5,12 @@ import (
 	"os"
 	"strconv"
 	"sync"
+	"fmt"
 )
 
 
 func main() {
- 	testjsonrw()
+ 	//testjsonrw()
 	testmultijson()
 
 }
@@ -49,10 +50,11 @@ func testmultijson() {
 	mutex := new(sync.Mutex)
 	c := make(chan bool, 100)
 	for i:=0; i<100; i++ {
-		go mj(i, &mutex, c)
+		go mj(i, mutex, c)
 	}
 	// go的主函数结束后, 不会等待go程序结束, 而是直接退出.
 	// go的阻塞似乎没有类似join的玩意儿? 用管道进行阻塞.
+
 	for i:=0; i<100; i++ {
 		<- c
 	}
@@ -61,25 +63,26 @@ func testmultijson() {
 func mj(i int, mutex *sync.Mutex, c chan bool){
 	// defer c <- true: syntax error
 	// defer func(c chan bool) {c <- true}: syntax error
-	defer
-	path := "/tmp/mj"
-
+	defer func(){ c<-true }()
+	//path := "/tmp/mj"
+	path := "f:/mj"
 	j := make(map[string]interface{})
 	j["id"+strconv.Itoa(i)] = i
 	j["content"+strconv.Itoa(i)] = "json" + strconv.Itoa(i)
 
-	mutex.Lock()
-	defer mutex.Unlock()
+	(*mutex).Lock()
+	defer (*mutex).Unlock()
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		file, err := os.Create(path); ErrorClient(err); defer file.Close()
 		encoder := json.NewEncoder(file)
 		encoder.Encode(j)
-		return
 	} else {
 		file, err := os.Open(path); ErrorClient(err); defer file.Close()
-		decoder := json.NewDecoder(file)
-		decoder.Decode(j)
+		//decoder := json.NewDecoder(file)
+		//decoder.Decode(j)
 		encoder := json.NewEncoder(file)
 		encoder.Encode(j)
 	}
+	fmt.Println("I'm " + strconv.Itoa(i))
+
 }
