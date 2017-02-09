@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"sync"
 	"fmt"
+	"io/ioutil"
 )
 
 
@@ -50,6 +51,7 @@ func testmultijson() {
 	mutex := new(sync.Mutex)
 	c := make(chan bool, 100)
 	for i:=0; i<100; i++ {
+
 		go mj(i, mutex, c)
 	}
 	// go的主函数结束后, 不会等待go程序结束, 而是直接退出.
@@ -64,6 +66,12 @@ func mj(i int, mutex *sync.Mutex, c chan bool){
 	// defer c <- true: syntax error
 	// defer func(c chan bool) {c <- true}: syntax error
 	defer func(){ c<-true }()
+
+	cf := func(path string, j map[string]interface{}){
+		file, err := os.Create(path); ErrorClient(err); defer file.Close()
+		encoder := json.NewEncoder(file)
+		encoder.Encode(j)
+	}
 	//path := "/tmp/mj"
 	path := "f:/mj"
 	j := make(map[string]interface{})
@@ -72,17 +80,22 @@ func mj(i int, mutex *sync.Mutex, c chan bool){
 
 	(*mutex).Lock()
 	defer (*mutex).Unlock()
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		file, err := os.Create(path); ErrorClient(err); defer file.Close()
-		encoder := json.NewEncoder(file)
-		encoder.Encode(j)
-	} else {
-		file, err := os.Open(path); ErrorClient(err); defer file.Close()
-		//decoder := json.NewDecoder(file)
-		//decoder.Decode(j)
-		encoder := json.NewEncoder(file)
-		encoder.Encode(j)
-	}
+
 	fmt.Println("I'm " + strconv.Itoa(i))
+
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		cf(path, j)
+	} else {
+		var tmp map[string]interface{}
+		content, err := ioutil.ReadFile(path); ErrorClient(err)
+		err = json.Unmarshal(content, &tmp); ErrorClient(err)
+		for k, v := range tmp {
+			j[k] = v
+		}
+		//fmt.Println(tmp)
+		cf(path, j)
+	}
+
+	//fmt.Println(j)
 
 }
