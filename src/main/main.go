@@ -13,7 +13,7 @@ import (
 func main() {
  	//testjsonrw()
 	testmultijson()
-
+	testjsondecode()
 }
 
 // 测试json的文件读写使用.
@@ -49,15 +49,15 @@ func testjsonrw() {
 // 测试多个go程一起读写文件的阻塞, 使用文件读写锁.
 func testmultijson() {
 	mutex := new(sync.Mutex)
-	c := make(chan bool, 100)
-	for i:=0; i<100; i++ {
+	c := make(chan bool, 10)
+	for i:=0; i<10; i++ {
 
 		go mj(i, mutex, c)
 	}
 	// go的主函数结束后, 不会等待go程序结束, 而是直接退出.
 	// go的阻塞似乎没有类似join的玩意儿? 用管道进行阻塞.
 
-	for i:=0; i<100; i++ {
+	for i:=0; i<10; i++ {
 		<- c
 	}
 }
@@ -98,4 +98,22 @@ func mj(i int, mutex *sync.Mutex, c chan bool){
 
 	//fmt.Println(j)
 
+}
+
+func testjsondecode() {
+	filepath := "f:/mj"
+	file, _ := os.Open(filepath); defer file.Close()
+	decoder := json.NewDecoder(file)
+	var tmp map[string]interface{}
+
+	i := 0
+	for i < 5 {
+		err := decoder.Decode(&tmp)
+
+		i++
+		fmt.Println(tmp)
+		if err != nil {
+			break
+		}
+	}
 }
