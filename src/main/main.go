@@ -72,8 +72,8 @@ func mj(i int, mutex *sync.Mutex, c chan bool){
 		encoder := json.NewEncoder(file)
 		encoder.Encode(j)
 	}
-	//path := "/tmp/mj"
-	path := "f:/mj"
+	path := "/tmp/mj"
+	//path := "f:/mj"
 	j := make(map[string]interface{})
 	j["id"+strconv.Itoa(i)] = i
 	j["content"+strconv.Itoa(i)] = "json" + strconv.Itoa(i)
@@ -101,19 +101,22 @@ func mj(i int, mutex *sync.Mutex, c chan bool){
 }
 
 func testjsondecode() {
-	filepath := "f:/mj"
+	fmt.Println(1)
+	filepath := "/tmp/mj"
 	file, _ := os.Open(filepath); defer file.Close()
 	decoder := json.NewDecoder(file)
 	var tmp map[string]interface{}
-
-	i := 0
-	for i < 5 {
+/*
+	for {
 		err := decoder.Decode(&tmp)
-
-		i++
 		fmt.Println(tmp)
-		if err != nil {
-			break
-		}
+
+		fmt.Println(err)
+		if err != nil {break}
+
+	} */
+
+	for decoder.Decode(&tmp) != nil {
+		fmt.Println(tmp)
 	}
 }
