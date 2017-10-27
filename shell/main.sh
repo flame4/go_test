@@ -1,3 +1,15 @@
 #!/usr/bin/env bash
-cd ../src/main
-go run err_dealer.go main.go
+
+
+cd ..
+CURDIR=`pwd`
+OLDGOPATH="$GOPATH"
+export GOPATH="$CURDIR"
+gofmt -w src
+
+go install leetcode
+go install server
+go install main
+
+export GOPATH="$OLDGOPATH"
+echo 'finished'

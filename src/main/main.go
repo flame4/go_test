@@ -11,15 +11,15 @@ type aa struct {
 }
 
 func main() {
- 	//testjsonrw()
+	//testjsonrw()
 	//testmultijson()
 	//testjsondecode()
 
 	x := sync.WaitGroup{}
 	x.Add(5)
 	t := 0
-	for i:=0; i<5; i++ {
-		go func(t int){
+	for i := 0; i < 5; i++ {
+		go func(t int) {
 			t++
 			fmt.Println(t)
 			x.Done()
@@ -27,9 +27,4 @@ func main() {
 	}
 	x.Wait()
 
-
-
-
-
 }
-

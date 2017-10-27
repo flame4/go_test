@@ -1,14 +1,13 @@
 package main
 
-import(
-	"sync"
-	"os"
+import (
 	"encoding/json"
 	"fmt"
-	"strconv"
 	"io/ioutil"
+	"os"
+	"strconv"
+	"sync"
 )
-
 
 // 测试json的文件读写使用.
 func testjsonrw() {
@@ -29,13 +28,19 @@ func testjsonrw() {
 
 	// b1, err := json.Marshal(json_map); 	ErrorClient(err)
 
-	in1, err := os.Create(file1); ErrorClient(err); defer in1.Close()
+	in1, err := os.Create(file1)
+	ErrorClient(err)
+	defer in1.Close()
 	in1.Write(json_byte)
 
-	in2, err := os.Create(file2); ErrorClient(err); defer in2.Close()
+	in2, err := os.Create(file2)
+	ErrorClient(err)
+	defer in2.Close()
 	in2.WriteString(json_string)
 
-	in3, err := os.Create(file3); ErrorClient(err); defer in3.Close()
+	in3, err := os.Create(file3)
+	ErrorClient(err)
+	defer in3.Close()
 	encoder := json.NewEncoder(in3)
 	encoder.Encode(json_map)
 }
@@ -44,25 +49,27 @@ func testjsonrw() {
 func testmultijson() {
 	mutex := new(sync.Mutex)
 	c := make(chan bool, 10)
-	for i:=0; i<10; i++ {
+	for i := 0; i < 10; i++ {
 
 		go mj(i, mutex, c)
 	}
 	// go的主函数结束后, 不会等待go程序结束, 而是直接退出.
 	// go的阻塞似乎没有类似join的玩意儿? 用管道进行阻塞.
 
-	for i:=0; i<10; i++ {
-		<- c
+	for i := 0; i < 10; i++ {
+		<-c
 	}
 }
 
-func mj(i int, mutex *sync.Mutex, c chan bool){
+func mj(i int, mutex *sync.Mutex, c chan bool) {
 	// defer c <- true: syntax error
 	// defer func(c chan bool) {c <- true}: syntax error
-	defer func(){ c<-true }()
+	defer func() { c <- true }()
 
-	cf := func(path string, j map[string]interface{}){
-		file, err := os.Create(path); ErrorClient(err); defer file.Close()
+	cf := func(path string, j map[string]interface{}) {
+		file, err := os.Create(path)
+		ErrorClient(err)
+		defer file.Close()
 		encoder := json.NewEncoder(file)
 		encoder.Encode(j)
 	}
@@ -81,8 +88,10 @@ func mj(i int, mutex *sync.Mutex, c chan bool){
 		cf(path, j)
 	} else {
 		var tmp map[string]interface{}
-		content, err := ioutil.ReadFile(path); ErrorClient(err)
-		err = json.Unmarshal(content, &tmp); ErrorClient(err)
+		content, err := ioutil.ReadFile(path)
+		ErrorClient(err)
+		err = json.Unmarshal(content, &tmp)
+		ErrorClient(err)
 		for k, v := range tmp {
 			j[k] = v
 		}
@@ -97,18 +106,19 @@ func mj(i int, mutex *sync.Mutex, c chan bool){
 func testjsondecode() {
 	fmt.Println(1)
 	filepath := "/tmp/mj"
-	file, _ := os.Open(filepath); defer file.Close()
+	file, _ := os.Open(filepath)
+	defer file.Close()
 	decoder := json.NewDecoder(file)
 	var tmp map[string]interface{}
-/*
-	for {
-		err := decoder.Decode(&tmp)
-		fmt.Println(tmp)
+	/*
+		for {
+			err := decoder.Decode(&tmp)
+			fmt.Println(tmp)
 
-		fmt.Println(err)
-		if err != nil {break}
+			fmt.Println(err)
+			if err != nil {break}
 
-	} */
+		} */
 
 	for decoder.Decode(&tmp) != nil {
 		fmt.Println(tmp)
