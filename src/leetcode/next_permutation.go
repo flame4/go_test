@@ -1,6 +1,6 @@
 package leetcode
 
-import "fmt"
+import _ "fmt"
 
 func nextPermutation(nums []int)  {
 	// 找到最后一个递减子序列
