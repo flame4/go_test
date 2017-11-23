@@ -1,23 +1,23 @@
 package leetcode
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 )
 
-func TestAdd2Numbers_1(t *testing.T)  {
-	l1 := makeList([]int{1,2,3,4})
-	l2 := makeList([]int{1,2,3,4})
-	l3 := makeList([]int{2,4,6,8})
-	validateList(addTwoNumbers(l1,l2),l3, t)
+func TestAdd2Numbers_1(t *testing.T) {
+	l1 := makeList([]int{1, 2, 3, 4})
+	l2 := makeList([]int{1, 2, 3, 4})
+	l3 := makeList([]int{2, 4, 6, 8})
+	validateList(addTwoNumbers(l1, l2), l3, t)
 }
 
 func TestUse(t *testing.T) {
-	l1 := makeList([]int{1,2,3,4})
+	l1 := makeList([]int{1, 2, 3, 4})
 	ShowList(l1)
 }
 
-func makeList(l []int) *ListNode{
+func makeList(l []int) *ListNode {
 	head := new(ListNode)
 	follower := head
 	for index, val := range l {
@@ -35,7 +35,7 @@ func validateList(l1 *ListNode, l2 *ListNode, t *testing.T) {
 	//ShowList(l2)
 	for (l1 != nil) || (l2 != nil) {
 		//fmt.Println(1)
-		switch  {
+		switch {
 		case l1 == nil && l2 != nil:
 			t.Fatal("List Length Not Equal! l2 larger!")
 		case l2 == nil && l1 != nil:

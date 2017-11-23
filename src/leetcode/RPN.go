@@ -2,8 +2,8 @@ package leetcode
 
 import (
 	_ "container/list"
-	_ "reflect"
 	"fmt"
+	_ "reflect"
 	_ "strings"
 )
 
@@ -16,11 +16,11 @@ import (
 
 type Stack struct {
 	list []interface{}
-	len int
+	len  int
 }
 
 func (s *Stack) Pop() interface{} {
-	if(s.len <= 0) {
+	if s.len <= 0 {
 		return nil
 	} else {
 		result := s.list[s.len-1]
@@ -42,7 +42,6 @@ func (s *Stack) Len() int {
 	return s.len
 }
 
-
 func rpn(mid_express string) string {
 	stack_symbol := new(Stack)
 	stack_out := new(Stack)
@@ -60,7 +59,7 @@ func rpn(mid_express string) string {
 			}
 			stack_symbol.Pop()
 		case "+", "-":
-			if(stack_symbol.Len() == 0) {
+			if stack_symbol.Len() == 0 {
 				stack_symbol.PushBack(s)
 			} else {
 				for stack_symbol.Back().(string) != "(" {
@@ -91,7 +90,3 @@ func rpn(mid_express string) string {
 	}
 	return result
 }
-
-
-
-

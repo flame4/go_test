@@ -1,11 +1,12 @@
 package leetcode
 
-import(
-	"testing"
+import (
 	"strings"
+	"testing"
 )
+
 func TestRPN_1(t *testing.T) {
-	if(strings.Compare("352*+2+5/63/2*+3+", rpn("((3+5*2)+2)/5+6/3*2+3")) != 0) {
+	if strings.Compare("352*+2+5/63/2*+3+", rpn("((3+5*2)+2)/5+6/3*2+3")) != 0 {
 		t.Fatal("Error!")
 	}
 }

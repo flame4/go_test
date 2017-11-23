@@ -2,11 +2,11 @@ package leetcode
 
 import _ "fmt"
 
-func nextPermutation(nums []int)  {
+func nextPermutation(nums []int) {
 	// 找到最后一个递减子序列
 	last_index := 0
 	for index, _ := range nums {
-		if index < len(nums) - 1 {
+		if index < len(nums)-1 {
 			if nums[index] < nums[index+1] {
 				last_index = index + 1
 			}
@@ -16,9 +16,9 @@ func nextPermutation(nums []int)  {
 	// 将最后一个递减子序列前面的数字和这个序列中第一个比它大的换一下
 	candicate_index := last_index - 1
 	target_index := last_index
-	if(candicate_index >= 0) {
+	if candicate_index >= 0 {
 		for target_index < len(nums) {
-			if(nums[candicate_index] < nums[target_index]) {
+			if nums[candicate_index] < nums[target_index] {
 				target_index++
 			} else {
 				break
